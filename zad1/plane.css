@@ -1,9 +1,64 @@
 body {
-    background-color: lightblue;
+    background: lightblue;
+    margin: 0;
 }
 
-.first {
+.plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+}
+
+.body {
+    position: absolute;
+    top: -75px;
+    left: -250px;
+    width: 500px;
+    height: 150px;
+    background: lightgrey;
+}
+
+.cockpit {
+    position: absolute;
+    left: 250px;
+    top: -75px;
+    width: 0;
+    height: 0;
+    border-bottom: 150px solid lightgray;
+    border-right: 200px solid transparent;
+    border-bottom-right-radius: 100px;
+}
+
+.tail-front {
+    position: absolute;
+    left: -300px;
+    bottom: 50px;
+    width: 0;
+    height: 0;
+    border-bottom: 200px solid darkgray;
+    border-right: 250px solid transparent;
+}
+
+.tail-back {
+    position: absolute;
+    left: -400px;
+    bottom: 50px;
+    width: 0;
+    height: 0;
+    border-top: 200px solid darkgray;
+    border-left: 100px solid transparent;
+}
+
+.right-wing {
+    position: absolute;
+    left: -50px;
+    top: 50px;
     width: 100px;
-    height: 100px;
-    background-color: grey;
+    height: 0;
+    border-top: 200px solid darkgray;
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+    transform: skewX(-40deg);
 }
