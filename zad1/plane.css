@@ -1,5 +1,5 @@
 body {
-    background: lightblue;
+    background: #25afde;
     margin: 0;
 }
 
@@ -14,41 +14,92 @@ body {
 .body {
     position: absolute;
     top: -75px;
-    left: -250px;
-    width: 500px;
+    left: -300px;
+    width: 600px;
     height: 150px;
-    background: lightgrey;
+    background: whitesmoke;
+    border-bottom-left-radius: 75px;
 }
 
 .cockpit {
     position: absolute;
-    left: 250px;
+    left: 300px;
     top: -75px;
     width: 0;
     height: 0;
-    border-bottom: 150px solid lightgray;
-    border-right: 200px solid transparent;
+    border-bottom: 150px solid whitesmoke;
+    border-right: 180px solid transparent;
     border-bottom-right-radius: 100px;
+}
+
+.windshield-front {
+    position: absolute;
+    left: 335px;
+    top: -45px;
+    width: 0;
+    height: 0;
+    border-bottom: 50px solid #4cd2ff;
+    border-right: 60px solid transparent;
+}
+
+.windshield-back {
+    position: absolute;
+    left: 305px;
+    top: -45px;
+    width: 30px;
+    height: 50px;
+    background: #4cd2ff;
+}
+
+.tail {
+    position: absolute;
+    left: -295px;
+    bottom: -25px;
 }
 
 .tail-front {
     position: absolute;
-    left: -300px;
-    bottom: 50px;
+    left: 0;
+    bottom: 0;
     width: 0;
     height: 0;
-    border-bottom: 200px solid darkgray;
-    border-right: 250px solid transparent;
+    border-bottom: 200px solid whitesmoke;
+    border-right: 150px solid transparent;
 }
 
 .tail-back {
     position: absolute;
-    left: -400px;
-    bottom: 50px;
+    left: -50px;
+    bottom: 0;
     width: 0;
     height: 0;
-    border-top: 200px solid darkgray;
-    border-left: 100px solid transparent;
+    border-top: 200px solid whitesmoke;
+    border-left: 50px solid transparent;
+    border-top-left-radius: 5px;
+}
+
+.tail-left-wing {
+    position: absolute;
+    left: -50px;
+    top: -175px;
+    width: 25px;
+    height: 0;
+    border-bottom: 75px solid lightgray;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+    transform: skewX(40deg);
+}
+
+.tail-right-wing {
+    position: absolute;
+    left: -60px;
+    top: -125px;
+    width: 25px;
+    height: 0;
+    border-top: 75px solid lightgray;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+    transform: skewX(-45deg);
 }
 
 .right-wing {
@@ -57,8 +108,38 @@ body {
     top: 50px;
     width: 100px;
     height: 0;
-    border-top: 200px solid darkgray;
-    border-right: 50px solid transparent;
-    border-left: 50px solid transparent;
+    border-top: 200px solid lightgray;
+    border-right: 25px solid transparent;
+    border-left: 55px solid transparent;
     transform: skewX(-40deg);
+}
+
+.left-wing {
+    position: absolute;
+    left: 50px;
+    top: -150px;
+    width: 100px;
+    height: 0;
+    border-bottom: 200px solid lightgray;
+    border-right: 55px solid transparent;
+    border-left: 25px solid transparent;
+    transform: skewX(30deg);
+}
+
+.windows {
+    position:absolute;
+    top: -35px;
+    left: -175px;
+    display: grid;
+    grid-template-columns: repeat(8, 10fr);
+    justify-items: center;
+    column-gap: 25px;
+}
+
+.window {
+    position: relative;
+    width: 30px;
+    height: 40px;
+    border-radius: 25%;
+    background: #4cd2ff;
 }
