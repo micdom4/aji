@@ -1,5 +1,5 @@
 body {
-    background: #25afde;
+    background: #2575de;
     margin: 0;
 }
 
@@ -32,10 +32,14 @@ body {
     border-bottom-right-radius: 100px;
 }
 
+.windshield {
+    position: absolute;
+    left: 336px;
+    top: -45px;
+}
+
 .windshield-front {
     position: absolute;
-    left: 335px;
-    top: -45px;
     width: 0;
     height: 0;
     border-bottom: 50px solid #4cd2ff;
@@ -44,8 +48,7 @@ body {
 
 .windshield-back {
     position: absolute;
-    left: 305px;
-    top: -45px;
+    left: -30px;
     width: 30px;
     height: 50px;
     background: #4cd2ff;
@@ -80,14 +83,14 @@ body {
 
 .tail-left-wing {
     position: absolute;
-    left: -50px;
-    top: -175px;
+    left: -40px;
+    top: -160px;
     width: 25px;
     height: 0;
     border-bottom: 75px solid lightgray;
     border-right: 25px solid transparent;
     border-left: 25px solid transparent;
-    transform: skewX(40deg);
+    transform: skewX(45deg);
 }
 
 .tail-right-wing {
@@ -117,8 +120,8 @@ body {
 .left-wing {
     position: absolute;
     left: 50px;
-    top: -150px;
-    width: 100px;
+    top: -125px;
+    width: 90px;
     height: 0;
     border-bottom: 200px solid lightgray;
     border-right: 55px solid transparent;
@@ -131,9 +134,7 @@ body {
     top: -35px;
     left: -175px;
     display: grid;
-    grid-template-columns: repeat(8, 10fr);
-    justify-items: center;
-    column-gap: 25px;
+    grid-template-columns: repeat(8, 55px);
 }
 
 .window {
