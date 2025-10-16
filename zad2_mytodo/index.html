@@ -9,6 +9,25 @@
 </head>
 
 <body>
+    <h1>My ToDo List</h1>
+    <form>
+        <label>Title</label>
+        <input type="text" id="inputTitle">
+        <label>Description</label>
+        <input type="text" id="inputDescription">
+        <label>Place</label>
+        <input type="text" id="inputPlace">
+        <label>Due date</label>
+        <input type="text" id="inputDate">
+        <input type="button" value="add" onclick="addTodo()">
+    </form>
+    <div>
+        <label>Search</label>
+        <input type="text" id="inputSearch" placeholder="Search for ToDo entry...">
+    </div>
+    <div id="todoListView">
+
+    </div>
 </body>
 
 </html>
