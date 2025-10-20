@@ -10,17 +10,28 @@
 
 <body>
     <h1>My ToDo List</h1>
-    <form>
-        <label>Title</label>
-        <input type="text" id="inputTitle">
-        <label>Description</label>
-        <input type="text" id="inputDescription">
-        <label>Place</label>
-        <input type="text" id="inputPlace">
-        <label>Due date</label>
-        <input type="text" id="inputDate">
-        <input type="button" value="add" onclick="addTodo()">
-    </form>
+    <ul>
+        <form>
+            <li>
+                <label>Title</label>
+                <input type="text" id="inputTitle">
+            </li>
+            <li>
+                <label>Description</label>
+                <input type="text" id="inputDescription">
+            </li>
+            <li>
+                <label>Place</label>
+                <input type="text" id="inputPlace">
+            </li>
+            <li>
+                <label>Due date</label>
+                <input type="text" id="inputDate">
+            </li>
+            <input type="button" value="Add ToDo element to the list" onclick="addTodo()">
+            <p id="feedback"></p>
+        </form>
+    </ul>
     <div>
         <label>Search</label>
         <input type="text" id="inputSearch" placeholder="Search for ToDo entry...">

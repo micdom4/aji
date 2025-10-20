@@ -1,5 +1,5 @@
 "use strict"
-let todoList = []; //declares a new array for Your todo list
+let todoList = [];
 
 let initList = function () {
     let savedList = window.localStorage.getItem('todoList');
@@ -26,7 +26,39 @@ let initList = function () {
     }
 }
 
-initList();
+// initList();
+
+let getJSONBin = function () {
+
+    let req = new XMLHttpRequest();
+
+    req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+            todoList = JSON.parse(req.responseText).record;
+        }
+    };
+
+    req.open("GET", "https://api.jsonbin.io/v3/b/68f6c31dae596e708f203292", true);
+    req.setRequestHeader("X-Master-Key", "$2a$10$AJECd0NyYhaDbn4mS1sCCez4GQ.b41TMGk5wwn3DhV6Ff6ID97FFK");
+    req.send();
+}
+
+getJSONBin();
+
+let updateJSONBin = function () {
+    let req = new XMLHttpRequest();
+
+    req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+            console.log(req.responseText);
+        }
+    };
+
+    req.open("PUT", "https://api.jsonbin.io/v3/b/68f6c31dae596e708f203292", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.setRequestHeader("X-Master-Key", "$2a$10$AJECd0NyYhaDbn4mS1sCCez4GQ.b41TMGk5wwn3DhV6Ff6ID97FFK");
+    req.send(JSON.stringify(todoList));
+}
 
 let updateTodoList = function () {
     let todoListDiv = document.getElementById("todoListView");
@@ -62,6 +94,8 @@ let addTodo = function () {
     let inputPlace = document.getElementById("inputPlace").value;
     let inputDate = new Date(document.getElementById("inputDate").value);
 
+    let feedback = document.getElementById("feedback");
+
     let newTodo = {
         title: inputTitle,
         description: inputDescription,
@@ -72,10 +106,19 @@ let addTodo = function () {
 
     todoList.push(newTodo);
 
-    window.localStorage.setItem('todoList', JSON.stringify(todoList));
+    updateJSONBin();
+
+    // window.localStorage.setItem('todoList', JSON.stringify(todoList));
+
+    if (todoList.includes(newTodo)) {
+        feedback.innerText = "Success! Added new todo: " + inputTitle;
+        setTimeout(() => { feedback.innerText = ""; }, 3000);
+    }
 }
 
 let deleteTodo = function (index) {
     todoList.splice(index, 1);
-    window.localStorage.setItem('todoList', JSON.stringify(todoList));
+    updateJSONBin();
+
+    // window.localStorage.setItem('todoList', JSON.stringify(todoList));
 }
