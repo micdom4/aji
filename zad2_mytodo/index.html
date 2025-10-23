@@ -18,36 +18,47 @@
             <div class="row mb-3">
                 <label for="todoTitle" class="col-sm-1 col-form-label">Title</label>
                 <div class="col-sm-10">
-                    <input type="text" id="inputTitle" class="form-control" required placeholder="e.g. Buy groceries">
+                    <input type="text" id="inputTitle" class="form-control" placeholder="e.g. Buy groceries">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="todoDescription" class="col-sm-1 col-form-label">Description</label>
                 <div class="col-sm-10">
-                    <input type="text" id="inputDescription" class="form-control" required
-                        placeholder="e.g. Milk, Bread, Eggs">
+                    <input type="text" id="inputDescription" class="form-control" placeholder="e.g. Milk, Bread, Eggs">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="todoPlace" class="col-sm-1 col-form-label">Place</label>
                 <div class="col-sm-10">
-                    <input type="text" id="inputPlace" class="form-control" required placeholder="e.g. Supermarket">
+                    <input type="text" id="inputPlace" class="form-control" placeholder="e.g. Supermarket">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="todoDate" class="col-sm-1 col-form-label">Due date</label>
                 <div class="col-sm-10">
-                    <input type="text" id="inputDate" class="form-control" placeholder="YYYY-MM-DD" required>
+                    <input type="text" id="inputDate" class="form-control" placeholder="YYYY-MM-DD, HH:MM:SS">
                 </div>
             </div>
             <input type="button" value="Add ToDo element to the list" onclick="addTodo()"
                 class="btn btn-primary mt-3 mb-3">
             <p id="feedback" class="form-text"></p>
         </form>
-        <div>
-            <label>Search</label>
-            <input type="text" id="inputSearch" placeholder="Search for ToDo entry...">
-        </div>
+        <form>
+            <div class="row g-3 align-items-center justify-content-center">
+                <div class="col-md-6">
+                    <label for="todoSearch" class="col-form-label">Search</label>
+                    <input type="text" id="inputSearch" placeholder="Search for ToDo entry..." class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="startDateFilter" class="col-form-label">From:</label>
+                    <input type="text" id="inputStartDate" placeholder="YYYY-MM-DD, HH:MM:SS" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="endDateFilter" class="col-form-label">To:</label>
+                    <input type="text" id="inputEndDate" placeholder="YYYY-MM-DD, HH:MM:SS" class="form-control">
+                </div>
+            </div>
+        </form>
         <table class="table table-striped table-hover table-bordered mt-4">
             <thead class="table-light text-center">
                 <tr>

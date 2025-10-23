@@ -67,40 +67,58 @@ let updateTodoList = function () {
         todoTable.removeChild(todoTable.firstChild);
     }
 
-    let filterInput = document.getElementById("inputSearch").value.toLowerCase();
+    let searchInput = document.getElementById("inputSearch").value.toLowerCase();
 
     for (let todo in todoList) {
-        if (filterInput.value == '' || todoList[todo].title.toLowerCase().includes(filterInput) || todoList[todo].description.toLowerCase().includes(filterInput)) {
-            let newRow = document.createElement("tr");
-            let headers = ["title", "description", "place", "dueDate", "category"];
+        if (searchInput.value == '' || todoList[todo].title.toLowerCase().includes(searchInput) || todoList[todo].description.toLowerCase().includes(searchInput)) {
+            if (todoList.filter(checkTodoDateInRange).includes(todoList[todo])) {
+                let newRow = document.createElement("tr");
+                let headers = ["title", "description", "place", "dueDate", "category"];
 
-            for (let h in headers) {
-                let newData = document.createElement("td");
-                let data = todoList[todo][headers[h]];
-                let newContent = document.createTextNode(data);
-                newData.appendChild(newContent);
-                if (headers[h] != "title" && headers[h] != "description") {
-                    newData.classList.add("text-center");
+                for (let h in headers) {
+                    let newData = document.createElement("td");
+                    let data = todoList[todo][headers[h]];
+                    let newContent = document.createTextNode(data);
+                    newData.appendChild(newContent);
+                    if (headers[h] != "title" && headers[h] != "description") {
+                        newData.classList.add("text-center");
+                    }
+                    newRow.appendChild(newData);
                 }
+
+                let newDeleteButton = document.createElement("input");
+                newDeleteButton.setAttribute("type", "button");
+                newDeleteButton.classList.add("btn-close");
+                newDeleteButton.addEventListener("click", () => { deleteTodo(todo); });
+
+                let newData = document.createElement("td");
+                newData.classList.add("text-center");
+                newData.appendChild(newDeleteButton);
                 newRow.appendChild(newData);
+
+                todoTable.appendChild(newRow);
             }
-
-            let newDeleteButton = document.createElement("input");
-            newDeleteButton.setAttribute("type", "button");
-            newDeleteButton.classList.add("btn-close");
-            newDeleteButton.addEventListener("click", () => { deleteTodo(todo); });
-
-            let newData = document.createElement("td");
-            newData.classList.add("text-center");
-            newData.appendChild(newDeleteButton);
-            newRow.appendChild(newData);
-
-            todoTable.appendChild(newRow);
         }
     }
 }
 
 setInterval(updateTodoList, 1000);
+
+let checkTodoDateInRange = function (todo) {
+    let date = new Date(todo.dueDate);
+    let startDate = new Date(document.getElementById("inputStartDate").value)
+    let endDate = new Date(document.getElementById("inputEndDate").value);
+
+    if (startDate == 'Invalid Date' && endDate == 'Invalid Date') {
+        return true;
+    } else if (startDate == 'Invalid Date') {
+        return date <= endDate;
+    } else if (endDate == 'Invalid Date') {
+        return date >= startDate;
+    } else {
+        return date >= startDate && date <= endDate;
+    }
+}
 
 let addTodo = function () {
     let inputTitle = document.getElementById("inputTitle").value;
@@ -115,7 +133,7 @@ let addTodo = function () {
         description: inputDescription,
         place: inputPlace,
         category: '',
-        dueDate: inputDate.toDateString()
+        dueDate: inputDate
     };
 
     todoList.push(newTodo);
