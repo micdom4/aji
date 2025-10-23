@@ -61,27 +61,41 @@ let updateJSONBin = function () {
 }
 
 let updateTodoList = function () {
-    let todoListDiv = document.getElementById("todoListView");
+    let todoTable = document.getElementById("todoTableView");
 
-    while (todoListDiv.firstChild) {
-        todoListDiv.removeChild(todoListDiv.firstChild);
+    while (todoTable.firstChild) {
+        todoTable.removeChild(todoTable.firstChild);
     }
 
     let filterInput = document.getElementById("inputSearch").value.toLowerCase();
 
     for (let todo in todoList) {
         if (filterInput.value == '' || todoList[todo].title.toLowerCase().includes(filterInput) || todoList[todo].description.toLowerCase().includes(filterInput)) {
-            let newElement = document.createElement("p");
-            let newContent = document.createTextNode(todoList[todo].title + " " + todoList[todo].description);
-            newElement.appendChild(newContent);
+            let newRow = document.createElement("tr");
+            let headers = ["title", "description", "place", "dueDate", "category"];
+
+            for (let h in headers) {
+                let newData = document.createElement("td");
+                let data = todoList[todo][headers[h]];
+                let newContent = document.createTextNode(data);
+                newData.appendChild(newContent);
+                if (headers[h] != "title" && headers[h] != "description") {
+                    newData.classList.add("text-center");
+                }
+                newRow.appendChild(newData);
+            }
 
             let newDeleteButton = document.createElement("input");
             newDeleteButton.setAttribute("type", "button");
-            newDeleteButton.setAttribute("value", "x");
+            newDeleteButton.classList.add("btn-close");
             newDeleteButton.addEventListener("click", () => { deleteTodo(todo); });
 
-            newElement.appendChild(newDeleteButton);
-            todoListDiv.appendChild(newElement);
+            let newData = document.createElement("td");
+            newData.classList.add("text-center");
+            newData.appendChild(newDeleteButton);
+            newRow.appendChild(newData);
+
+            todoTable.appendChild(newRow);
         }
     }
 }
@@ -101,7 +115,7 @@ let addTodo = function () {
         description: inputDescription,
         place: inputPlace,
         category: '',
-        dueDate: inputDate
+        dueDate: inputDate.toDateString()
     };
 
     todoList.push(newTodo);
