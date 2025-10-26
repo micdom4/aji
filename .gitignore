@@ -7,6 +7,10 @@
 example/
 examples/
 
+# Parcel Files
+.parcel-cache/
+dist
+
 # User-specific files
 *.rsuser
 *.suo

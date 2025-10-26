@@ -1,3 +1,4 @@
+import { Groq } from 'groq-sdk'
 "use strict"
 let todoList = [];
 
@@ -27,6 +28,42 @@ let initList = function () {
 }
 
 // initList();
+
+const GROQ_API_KEY = "GROQ-API-KEY"; // Replace with actual GROQ API key
+const groq = new Groq({ apiKey: GROQ_API_KEY, dangerouslyAllowBrowser: true });
+
+let fetchCategory = async function (title, description) {
+    const categories = ["Work", "Home", "Hobby", "Health", "Finance", "University", "Shopping", "Travel", "Other", "Private"];
+
+    const chatCompletion = await groq.chat.completions.create({
+        "messages": [
+            {
+                "role": "system",
+                "content": "User will be sending title and description (with new line character in between) of his ToDo list item. Assign to his message a category choosing from: " + categories.toString() + ". Return only selected category. If item is related to family, friends or personal matters, choose Private. If item does not fit any category, choose Other."
+            },
+            {
+                "role": "user",
+                "content": title + "\n" + description
+            }
+        ],
+        "model": "openai/gpt-oss-20b",
+        "temperature": 1,
+        "max_completion_tokens": 8192,
+        "top_p": 1,
+        "stream": false,
+        "reasoning_effort": "medium",
+        "stop": null
+    });
+
+    let category = chatCompletion.choices[0].message.content;
+    if (category == null || !categories.includes(category)) {
+        category = "Other";
+    }
+    
+    console.log("Fetched category: " + category + " for todo: " + title);
+
+    return category;
+}
 
 let getJSONBin = function () {
 
@@ -80,6 +117,7 @@ let updateTodoList = function () {
                     let data = todoList[todo][headers[h]];
                     let newContent = document.createTextNode(data);
                     newData.appendChild(newContent);
+
                     if (headers[h] != "title" && headers[h] != "description") {
                         newData.classList.add("text-center");
                     }
@@ -120,7 +158,7 @@ let checkTodoDateInRange = function (todo) {
     }
 }
 
-let addTodo = function () {
+let addTodo = async function () {
     let inputTitle = document.getElementById("inputTitle").value;
     let inputDescription = document.getElementById("inputDescription").value;
     let inputPlace = document.getElementById("inputPlace").value;
@@ -132,8 +170,8 @@ let addTodo = function () {
         title: inputTitle,
         description: inputDescription,
         place: inputPlace,
-        category: '',
-        dueDate: inputDate
+        category: await fetchCategory(inputTitle, inputDescription),
+        dueDate: inputDate.toISOString()
     };
 
     todoList.push(newTodo);
@@ -143,10 +181,12 @@ let addTodo = function () {
     // window.localStorage.setItem('todoList', JSON.stringify(todoList));
 
     if (todoList.includes(newTodo)) {
-        feedback.innerText = "Success! Added new todo: " + inputTitle;
+        feedback.innerText = "Success! Added new todo: \"" + inputTitle + "\"";
         setTimeout(() => { feedback.innerText = ""; }, 3000);
     }
 }
+
+document.getElementById("addButton").addEventListener("click", addTodo);
 
 let deleteTodo = function (index) {
     todoList.splice(index, 1);

@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="theme.css">
-    <script src="scripts.js"></script>
+    <script type="module" src="scripts.js"></script>
     <title>OurTODO App</title>
 </head>
 
@@ -39,9 +39,11 @@
                     <input type="text" id="inputDate" class="form-control" placeholder="YYYY-MM-DD, HH:MM:SS">
                 </div>
             </div>
-            <input type="button" value="Add ToDo element to the list" onclick="addTodo()"
-                class="btn btn-primary mt-3 mb-3">
-            <p id="feedback" class="form-text"></p>
+            <div class="row">
+                <input id="addButton" type="button" value="Add ToDo element to the list"
+                    class="col-sm-3 btn btn-primary mt-3 mb-3">
+                <div id="feedback" class="col text-success align-content-center"></div>
+            </div>
         </form>
         <form>
             <div class="row g-3 align-items-center justify-content-center">

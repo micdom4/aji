@@ -1,0 +1,30 @@
+{
+  "name": "zad2_mytodo",
+  "version": "1.0.0",
+  "description": "MyTodo",
+  "homepage": "https://github.com/micdom4/aji#readme",
+  "bugs": {
+    "url": "https://github.com/micdom4/aji/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micdom4/aji.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "groq-sdk": "^0.34.0"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "parcel": "^2.16.0",
+    "process": "^0.11.10"
+  }
+}
