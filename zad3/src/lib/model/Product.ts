@@ -1,12 +1,10 @@
 import { Schema, model, type Document, type ObjectId } from 'mongoose';
 
 export interface Category {
-  id: string;
   name: string;
 }
 
 export interface Product {
-  id: string;
   name: string;
   description: string;
   unitPrice: number;
@@ -22,7 +20,7 @@ const CategorySchema = new Schema(
   }
 );
 
-const productSchema = new Schema(
+const ProductSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -40,3 +38,5 @@ const productSchema = new Schema(
   }
 );
 
+export const categoryModel = model<Category>('categories', CategorySchema);
+export const productModel = model<Product>('products', CategorySchema);
