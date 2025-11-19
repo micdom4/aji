@@ -48,6 +48,7 @@ db.products.insertMany([
     unitWeight: 1.2,
     category: {
       _id: electronicsId,
+      name: "Electronics"
     }
   }
 ]);
