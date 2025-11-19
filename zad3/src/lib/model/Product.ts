@@ -1,4 +1,4 @@
-import { Schema, model, type Document, type ObjectId } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 export interface Category {
   name: string;
@@ -38,5 +38,5 @@ const ProductSchema = new Schema(
   }
 );
 
-export const categoryModel = model<Category>('categories', CategorySchema);
-export const productModel = model<Product>('products', CategorySchema);
+export const CategoryModel = model<Category>('categories', CategorySchema);
+export const ProductModel = model<Product>('products', ProductSchema);

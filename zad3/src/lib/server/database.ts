@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { MONGO_URI } from "$env/static/private"
-import { productModel } from "$lib/model/Product";
 let isConnected = false;
 
 export const connectMongo = async () => {
@@ -15,5 +14,4 @@ export const connectMongo = async () => {
     console.log("connection failed ", e);
     throw new Error("FAIL");
   }
-
 }
