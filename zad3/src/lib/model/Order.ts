@@ -39,5 +39,5 @@ const orderSchema = new Schema(
   }
 );
 
-export const OrderStateModel = model<OrderState>('status', orderStateSchema);
+export const OrderStateModel = model<OrderState>('statuses', orderStateSchema);
 export const OrderModel = model<Order>('orders', orderSchema);

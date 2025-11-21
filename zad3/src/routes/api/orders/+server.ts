@@ -14,3 +14,17 @@ export const GET: RequestHandler = async () => {
     return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
   }
 };
+
+export const POST: RequestHandler = async ({ request }) => {
+  try {
+    const data = await request.json();
+
+    const createdOrder = await OrderModel.create(data);
+
+    return json(createdOrder, { status: StatusCodes.CREATED });
+  } catch (error) {
+    console.error("Error creating:", error);
+
+    return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
+  }
+};

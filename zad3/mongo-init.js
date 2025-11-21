@@ -60,7 +60,6 @@ var mouse = {
   }
 };
 
-// 6. Insert Products
 db.products.insertMany([laptop, dumbbell, mouse]);
 
 db.statuses.insertMany([
