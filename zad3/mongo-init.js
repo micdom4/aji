@@ -2,9 +2,13 @@ db = db.getSiblingDB('aji');
 
 db.categories.drop();
 db.products.drop();
+db.statuses.drop();
+db.orders.drop();
 
 db.createCollection('categories');
 db.createCollection('products');
+db.createCollection('statuses');
+db.createCollection('orders');
 
 var electronicsId = ObjectId();
 var gymId = ObjectId();
@@ -20,35 +24,75 @@ db.categories.insertMany([
   }
 ]);
 
-db.products.insertMany([
+var laptop = {
+  _id: ObjectId(),
+  name: "Gaming Laptop",
+  description: "High-performance laptop with RGB lighting",
+  unitPrice: 1500,
+  unitWeight: 2.5,
+  category: {
+    _id: electronicsId,
+    name: "Electronics"
+  }
+};
+
+var dumbbell = {
+  _id: ObjectId(),
+  name: "Heavy Dumbbell",
+  description: "Cast iron hexagonal dumbbell",
+  unitPrice: 50,
+  unitWeight: 10,
+  category: {
+    _id: gymId,
+    name: "Gym Equipment"
+  }
+};
+
+var mouse = {
+  _id: ObjectId(),
+  name: "Wireless Mouse",
+  description: "Ergonomic mouse for coding",
+  unitPrice: 25.50,
+  unitWeight: 1.2,
+  category: {
+    _id: electronicsId,
+    name: "Electronics"
+  }
+};
+
+// 6. Insert Products
+db.products.insertMany([laptop, dumbbell, mouse]);
+
+db.statuses.insertMany([
+  { name: 'UNACCEPTED' },
+  { name: 'ACCEPTED' },
+  { name: 'CANCELED' },
+  { name: 'REALIZED' }
+]);
+
+db.orders.insertMany([
   {
-    name: "Gaming Laptop",
-    description: "High-performance laptop with RGB lighting",
-    unitPrice: 1500,
-    unitWeight: 2.5,
-    category: {
-      _id: electronicsId,
-      name: "Electronics"
-    }
+    date: new Date("2023-10-01T10:00:00Z"),
+    username: "john_doe",
+    email: "john@example.com",
+    phoneNumber: "555-0101",
+    state: { name: 'UNACCEPTED' },
+    productList: [laptop, mouse]
   },
   {
-    name: "Heavy Dumbbell",
-    description: "Cast iron hexagonal dumbbell",
-    unitPrice: 50,
-    unitWeight: 10,
-    category: {
-      _id: gymId,
-      name: "Gym Equipment"
-    }
+    date: new Date("2023-10-02T14:30:00Z"),
+    username: "jane_gymrat",
+    email: "jane@example.com",
+    phoneNumber: "555-0202",
+    state: { name: 'ACCEPTED' },
+    productList: [dumbbell, dumbbell]
   },
   {
-    name: "Wireless Mouse",
-    description: "Ergonomic mouse for coding",
-    unitPrice: 25.50,
-    unitWeight: 1.2,
-    category: {
-      _id: electronicsId,
-      name: "Electronics"
-    }
+    date: new Date("2023-10-05T09:15:00Z"),
+    username: "bob_builder",
+    email: "bob@example.com",
+    phoneNumber: "555-0303",
+    state: { name: 'REALIZED' },
+    productList: [laptop]
   }
 ]);
