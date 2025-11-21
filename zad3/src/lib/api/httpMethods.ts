@@ -41,9 +41,45 @@ export function createPostHandler<T>(CollectionModel: Model<T>): RequestHandler 
     try {
       const data = await request.json();
 
-      const createdProduct = CollectionModel.create(data);
+      const createdProduct = await CollectionModel.create(data);
 
       return json(createdProduct, { status: StatusCodes.CREATED });
+    } catch (error) {
+      console.error("Error creating:", error);
+
+      return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
+    }
+  }
+};
+
+export function createDeleteHandler<T>(CollectionModel: Model<T>): RequestHandler {
+  return async ({ params }) => {
+    try {
+      const { id } = params;
+
+      const deleted = await CollectionModel.findByIdAndDelete(id);
+
+      return json(deleted, { status: StatusCodes.ACCEPTED });
+    } catch (error) {
+      console.error("Error creating:", error);
+
+      return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
+    }
+  }
+};
+
+export function createPutHandler<T>(CollectionModel: Model<T>): RequestHandler {
+  return async ({ params, request }) => {
+    try {
+      const data = await request.json();
+
+      const modifiedDocument = await CollectionModel.findOneAndReplace(
+        { _id: params.id },
+        data,
+        { new: true }
+      );
+
+      return json(modifiedDocument, { status: StatusCodes.ACCEPTED });
     } catch (error) {
       console.error("Error creating:", error);
 
