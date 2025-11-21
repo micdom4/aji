@@ -1,20 +1,18 @@
-import { type Product } from "./Product";
-import { Schema, model, type Document, type ObjectId } from 'mongoose';
+import { type Product, ProductSchema } from "./Product";
+import { Schema, model } from 'mongoose';
 
 enum State {
-  UNACCEPTED,
-  ACCEPTED,
-  CANCELED,
-  REALIZED
+  UNACCEPTED = 'UNACCEPTED',
+  ACCEPTED = 'ACCEPTED',
+  CANCELED = 'CANCELED',
+  REALIZED = 'REALIZED'
 }
 
 export interface OrderState {
-  id: string;
-  state: State;
+  name: State;
 }
 
 export interface Order {
-  id: string;
   date?: Date;
   state: OrderState;
   username: String;
@@ -23,5 +21,23 @@ export interface Order {
   productList: Product[];
 }
 
+const orderStateSchema = new Schema(
+  {
+    name: {
+      type: String, enum: Object.values(State), required: true
+    },
+  }
+);
 
+const orderSchema = new Schema(
+  {
+    date: { type: Date },
+    state: { type: orderStateSchema, required: true },
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    productList: { type: [ProductSchema], required: true }
+  }
+);
 
+export const OrderStateModel = model<OrderState>('status', orderStateSchema);
+export const OrderModel = model<Order>('orders', orderSchema);
