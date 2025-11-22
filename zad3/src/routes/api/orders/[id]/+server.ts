@@ -1,11 +1,13 @@
 import { json } from '@sveltejs/kit';
-import { OrderModel } from '$lib/model/Order';
+import { OrderModel, State } from '$lib/model/Order';
 import type { RequestHandler } from './$types';
 import { StatusCodes } from 'http-status-codes';
 
+const STATE_HIERARCHY = [State.UNACCEPTED, State.ACCEPTED, State.CANCELED, State.REALIZED];
+
 export const PUT: RequestHandler = async ({ params, request }) => {
   try {
-
+    const data = await request.json();
     const order = await OrderModel.findById(params.id);
 
     if (!order) {
@@ -21,7 +23,28 @@ export const PUT: RequestHandler = async ({ params, request }) => {
       );
     }
 
-    const data = await request.json();
+    const currentState = order.state.name;
+    const newState = data.state.name;
+
+    const oldIndex = STATE_HIERARCHY.indexOf(currentState);
+    const newIndex = STATE_HIERARCHY.indexOf(newState);
+
+    if (oldIndex === -1 || newIndex === -1) {
+      return json(
+        { error: 'Invalid state provided or current state cannot be transitioned linearly.' },
+        { status: StatusCodes.BAD_REQUEST }
+      );
+    }
+
+    if (newIndex < oldIndex) {
+      return json(
+        {
+          error: `Cannot revert status backwards from ${currentState} to ${newState}.`
+        },
+        { status: StatusCodes.BAD_REQUEST }
+      );
+    }
+
 
     const { username, email, phoneNumber } = data;
 
@@ -46,6 +69,14 @@ export const PUT: RequestHandler = async ({ params, request }) => {
       data,
       { new: true }
     );
+
+
+    if (!modifiedDocument) {
+      return json(
+        { error: `Product with ID ${params.id} not found.` },
+        { status: StatusCodes.NOT_FOUND }
+      );
+    }
 
     return json(modifiedDocument, { status: StatusCodes.ACCEPTED });
   } catch (error) {

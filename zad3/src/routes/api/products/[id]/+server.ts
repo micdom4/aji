@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { ProductModel } from '$lib/model/Product';
-import { createPutHandler, createDeleteHandler } from '$lib/api/httpMethods';
+import { createDeleteHandler } from '$lib/api/httpMethods';
 import type { RequestHandler } from './$types';
 import { StatusCodes } from 'http-status-codes';
 

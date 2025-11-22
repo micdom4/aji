@@ -1,10 +1,10 @@
 import { type Product, ProductSchema } from "./Product";
 import { Schema, model } from 'mongoose';
 
-enum State {
+export enum State {
+  CANCELED = 'CANCELED',
   UNACCEPTED = 'UNACCEPTED',
   ACCEPTED = 'ACCEPTED',
-  CANCELED = 'CANCELED',
   REALIZED = 'REALIZED'
 }
 
