@@ -71,29 +71,35 @@ db.statuses.insertMany([
   { name: 'REALIZED' }
 ]);
 
+const canceledStatus = db.statuses.findOne({ name: 'canceled' });
+const unacceptedStatus = db.statuses.findOne({ name: 'UNACCEPTED' });
+const acceptedStatus = db.statuses.findOne({ name: 'ACCEPTED' });
+const realizedStatus = db.statuses.findOne({ name: 'REALIZED' });
+
+
 db.orders.insertMany([
   {
     date: new Date("2023-10-01T10:00:00Z"),
-    username: "john_doe",
+    username: "client",
     email: "john@example.com",
     phoneNumber: "555-0101",
-    state: { name: 'UNACCEPTED' },
+    state: realizedStatus,
     productList: [laptop, mouse]
   },
   {
     date: new Date("2023-10-02T14:30:00Z"),
-    username: "jane_gymrat",
+    username: "worker",
     email: "jane@example.com",
     phoneNumber: "555-0202",
-    state: { name: 'ACCEPTED' },
+    state: acceptedStatus,
     productList: [dumbbell, dumbbell]
   },
   {
     date: new Date("2023-10-05T09:15:00Z"),
-    username: "bob_builder",
+    username: "worker",
     email: "bob@example.com",
     phoneNumber: "555-0303",
-    state: { name: 'REALIZED' },
+    state: realizedStatus,
     productList: [laptop]
   }
 ]);

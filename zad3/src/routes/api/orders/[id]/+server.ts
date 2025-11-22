@@ -2,8 +2,12 @@ import { json } from '@sveltejs/kit';
 import { OrderModel, State } from '$lib/model/Order';
 import type { RequestHandler } from './$types';
 import { StatusCodes } from 'http-status-codes';
+import { createGetAllHandler } from '$lib/api/httpMethods';
 
 const STATE_HIERARCHY = [State.UNACCEPTED, State.ACCEPTED, State.CANCELED, State.REALIZED];
+
+
+export const GET = createGetAllHandler(OrderModel);
 
 export const PUT: RequestHandler = async ({ params, request }) => {
   try {
