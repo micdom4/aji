@@ -8,6 +8,7 @@ export const GET: RequestHandler = async () => {
     const orders = await OrderModel.find({});
 
     return json(orders, { status: StatusCodes.OK });
+
   } catch (error) {
     console.error("Error fetching:", error);
 

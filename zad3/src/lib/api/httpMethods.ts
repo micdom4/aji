@@ -36,22 +36,6 @@ export function createGetHandler<T>(CollectionModel: Model<T>): RequestHandler {
   };
 }
 
-export function createPostHandler<T>(CollectionModel: Model<T>): RequestHandler {
-  return async ({ params, request }) => {
-    try {
-      const data = await request.json();
-
-      const createdProduct = await CollectionModel.create(data);
-
-      return json(createdProduct, { status: StatusCodes.CREATED });
-    } catch (error) {
-      console.error("Error creating:", error);
-
-      return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
-    }
-  }
-};
-
 export function createDeleteHandler<T>(CollectionModel: Model<T>): RequestHandler {
   return async ({ params }) => {
     try {
