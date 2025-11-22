@@ -4,11 +4,13 @@ db.categories.drop();
 db.products.drop();
 db.statuses.drop();
 db.orders.drop();
+db.users.drop();
 
 db.createCollection('categories');
 db.createCollection('products');
 db.createCollection('statuses');
 db.createCollection('orders');
+db.createCollection('users');
 
 var electronicsId = ObjectId();
 var gymId = ObjectId();
@@ -93,5 +95,22 @@ db.orders.insertMany([
     phoneNumber: "555-0303",
     state: { name: 'REALIZED' },
     productList: [laptop]
+  }
+]);
+
+db.users.insertMany([
+  {
+    username: "worker",
+    password: "password",
+    role: "WORKER",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    username: "client",
+    password: "password",
+    role: "CLIENT",
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ]);
