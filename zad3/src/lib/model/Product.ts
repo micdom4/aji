@@ -31,7 +31,7 @@ export const ProductSchema = new Schema(
     },
     unitWeight: {
       type: Number, required: true,
-      min: [1, "I ain't selling less than a kilo"],
+      min: [0.01, "I ain't selling less than this"],
       max: [100, "And no more than 100"],
     },
     category: { type: CategorySchema }

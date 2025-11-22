@@ -29,5 +29,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     return json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED });
   }
 
+  if (event.url.pathname.startsWith('/api/init') && !event.locals.user) {
+    return json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED });
+  }
+
   return await resolve(event);
 };
