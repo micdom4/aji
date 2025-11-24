@@ -21,11 +21,11 @@ export const POST: RequestHandler = async ({ request }) => {
   try {
     const data = await request.json();
 
-    const { username, email, phoneNumber } = data;
+    const { username, email, phoneNumber, productList } = data;
 
     if (!username || !email || !phoneNumber) {
       return json(
-        { error: 'fields username, email and phoneNumber cant be empty' },
+        { error: 'Fields username, email and phoneNumber cannot be empty' },
         { status: StatusCodes.BAD_REQUEST }
       );
     }
@@ -39,40 +39,34 @@ export const POST: RequestHandler = async ({ request }) => {
       );
     }
 
-    const { items } = data;
-
-    if (!items || !Array.isArray(items) || items.length === 0) {
+    if (!productList || !Array.isArray(productList) || productList.length === 0) {
       return json(
-        { error: 'Order must contain at least one product.' },
+        { error: 'Order must contain at least one product in productList.' },
         { status: StatusCodes.BAD_REQUEST }
       );
     }
 
-    for (const item of items) {
-      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
-        return json(
-          {
-            error: `Invalid quantity for product ${item.productId}. Quantity must be a positive number greater than zero.`
-          },
-          { status: StatusCodes.BAD_REQUEST }
-        );
-      }
-    }
-
-    const productIdsToCheck = items.map((item: any) => item.productId);
+    const productIdsToCheck = productList.map((item: any) => item._id);
 
     const foundProducts = await ProductModel.find({
       _id: { $in: productIdsToCheck }
     });
 
-    for (const item of items) {
+    for (const item of productList) {
+      if (!item._id) {
+        return json(
+          { error: `Product object is missing an _id field.` },
+          { status: StatusCodes.BAD_REQUEST }
+        );
+      }
+
       const productExists = foundProducts.find(
-        (p) => p._id.toString() === item.productId
+        (p) => p._id.toString() === item._id
       );
 
       if (!productExists) {
         return json(
-          { error: `Product with ID ${item.productId} does not exist in the database.` },
+          { error: `Product with ID ${item._id} does not exist in the database.` },
           { status: StatusCodes.BAD_REQUEST }
         );
       }
@@ -84,7 +78,6 @@ export const POST: RequestHandler = async ({ request }) => {
   } catch (error) {
     console.error("Error creating:", error);
 
-    return json({ error: 'Could not fetch' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
+    return json({ error: 'Could not process request' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
   }
 };
-

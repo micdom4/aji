@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ request }) => {
     const accessToken = jwt.sign(
       { userId: user._id, role: user.role },
       JWT_SECRET,
-      { expiresIn: '30s' }
+      { expiresIn: '1h' }
     );
 
     const refreshToken = jwt.sign(
