@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
 import { UserModel } from '$lib/model/User';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET, JWT_REFRESH_SECRET } from '$env/static/private';
 import { StatusCodes } from 'http-status-codes';

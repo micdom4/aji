@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 export enum UserRole {
   CLIENT = 'CLIENT',
@@ -28,12 +27,4 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-userSchema.pre('save', async function (next) {
-  const user = this;
-  if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 10);
-  }
-  next();
-});
-
-export const UserModel = mongoose.model('User', userSchema);
+export const UserModel = mongoose.model.User || mongoose.model('User', userSchema);
