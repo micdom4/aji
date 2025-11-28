@@ -1,4 +1,3 @@
-// Helper function to make API calls with JWT token handling
 export async function apiCall(endpoint, options = {}) {
   const token = localStorage.getItem('accessToken')
 
@@ -16,7 +15,6 @@ export async function apiCall(endpoint, options = {}) {
     headers
   })
 
-  // If 401 (unauthorized), token expired
   if (response.status === 401) {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')

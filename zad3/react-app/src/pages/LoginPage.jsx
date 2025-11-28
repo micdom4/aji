@@ -25,7 +25,6 @@ export default function LoginPage() {
       <Container className="py-5">
          <div style={{ maxWidth: '400px', margin: '0 auto' }}>
             <h1 className="mb-4">Login</h1>
-            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
                <Form.Group className="mb-3">
                   <Form.Label>Username</Form.Label>
@@ -47,6 +46,7 @@ export default function LoginPage() {
                      required
                   />
                </Form.Group>
+               {error && <Alert variant="danger">{error}</Alert>}
                <Button type="submit" variant="primary" className="w-100" disabled={loading}>
                   {loading ? 'Logging in...' : 'Login'}
                </Button>

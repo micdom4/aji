@@ -18,7 +18,6 @@ export function useAuth() {
         throw new Error(data.error)
       }
 
-      // Store tokens
       setTokens(data.accessToken, data.refreshToken)
       setUser({ role: data.role, username })
       return true

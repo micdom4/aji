@@ -1,5 +1,3 @@
-// LocalStorage helpers for token management
-
 export function getAccessToken() {
   return localStorage.getItem('accessToken')
 }
