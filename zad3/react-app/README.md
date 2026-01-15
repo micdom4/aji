@@ -2,7 +2,7 @@ React presentation layer for `zad3` web shop.
 
 ## Features
 
-- React Router for multi-page navigation (Products, Orders, Login)
+- React Router for multi-page navigation (Products, Orders, LoginPage)
 - JWT authentication with token management
 - Reusable components (ProductCard, Navigation, ProtectedRoute)
 - Bootstrap styling
@@ -53,7 +53,7 @@ src/
 ├── App.jsx                    # Main router setup
 ├── main.jsx                   # React entry point
 ├── pages/
-│   ├── LoginPage.jsx          # Login form
+│   ├── LoginPage.jsx          # LoginPage form
 │   ├── ProductsPage.jsx       # List of products
 │   └── OrdersPage.jsx         # List of user orders
 ├── components/

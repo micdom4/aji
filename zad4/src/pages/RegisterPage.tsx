@@ -1,46 +1,135 @@
-import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {registerDataSchema, type RegisterDataType} from "../model/LoginDataType.ts";
+import {Formik, type FormikHelpers} from "formik";
+import {Button, Form} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
+import {loginApi} from "../api/LoginApi.ts";
+import useToast from "../components/toasts/useToast.tsx";
+import useModal from "../components/modals/useModal.tsx";
 
-const RegisterPage = function () {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+export default function RegisterPage() {
+    const {addToast} = useToast();
 
-    const submitForm = () => {
-        setLoading(true);
-    }
+    const {showConfirmation} = useModal();
 
+    const navigate = useNavigate();
 
-    return <>
-        <h2>Formularz rejestracyjny użytkownika</h2>
-        <Form onSubmit={submitForm}>
-            <Form.Group className="mb-3">
-                <Form.Label>Nazwa użytkownika:</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Wprowadź nazwę użytkownika"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Hasło:</Form.Label>
-                <Form.Control
-                    type="password"
-                    placeholder="Wprowadź hasło"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </Form.Group>
-            <Button type="submit" variant="primary" className="w-100" disabled={loading}>
-                {loading ? 'Rejestracja w toku...' : 'Zarejestruj się'}
-            </Button>
-        </Form>
-        <h4>Masz już konto? <Link to={'/login'}>Zaloguj się</Link></h4>
-    </>
+    const handleRegistration = async (
+        values: RegisterDataType,
+        {setSubmitting, setStatus}: FormikHelpers<RegisterDataType>
+    ) => {
+        showConfirmation({
+            title: 'Confirmation of registration',
+            message: `Do you really want to create new account with username: "${values.username}"?`,
+            confirmLabel: 'Yes',
+            cancelLabel: 'No',
+            variant: 'primary',
+
+            onConfirm: async () => {
+                try {
+                    setStatus(null);
+
+                    console.log('Wysyłanie danych do API:', values);
+
+                    await loginApi.register(values)
+                        .then((response) => {
+                            console.log(response);
+
+                            addToast(
+                                'Signing up successful!',
+                                `New user: "${values.username}" has been successfully created.`,
+                                'success');
+                            navigate('/login');
+                        })
+                        .catch(() => {
+                            setStatus('Invalid username and/or password.');
+                            addToast(
+                                'Error!',
+                                `Error while registration user: ${values.username}!`,
+                                'danger'
+                            );
+                        })
+
+                } catch (error) {
+                    console.error('Błąd logowania', error);
+                    setStatus('Nieprawidłowy login lub hasło.');
+                } finally {
+                    setSubmitting(false);
+                }
+            }
+        });
+    };
+
+    return (
+        <Formik
+            initialValues={{username: '', password: '', confirmPassword: ''}}
+            validationSchema={registerDataSchema}
+            onSubmit={handleRegistration}
+        >
+            {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+              }) => (
+                <Form noValidate onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
+                    <h3 className="mb-3">Login</h3>
+
+                    <Form.Group className="mb-3" controlId="formLogin">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="username"
+                            placeholder="e.g. Gigachad"
+                            value={values.username}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.username && !!errors.username}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.username}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            placeholder="e.g. ********"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.password && !!errors.password}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.password}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formConfirmPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="e.g. ********"
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.confirmPassword && !!errors.confirmPassword}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.confirmPassword}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Button variant="primary" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Logging in...' : 'Login'}
+                    </Button>
+                </Form>
+            )}
+        </Formik>
+    );
 }
-
-export default RegisterPage;

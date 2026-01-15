@@ -48,7 +48,7 @@ export default function LoginPage() {
                </Form.Group>
                {error && <Alert variant="danger">{error}</Alert>}
                <Button type="submit" variant="primary" className="w-100" disabled={loading}>
-                  {loading ? 'Logging in...' : 'Login'}
+                  {loading ? 'Logging in...' : 'LoginPage'}
                </Button>
             </Form>
          </div>
