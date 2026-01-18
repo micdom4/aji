@@ -1,7 +1,7 @@
 import {loginDataSchema, type LoginDataType} from "../model/LoginDataType.ts";
 import {Formik, type FormikHelpers} from "formik";
-import {Button, Form} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import {Button, Container, Form} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import {loginApi} from "../api/LoginApi.ts";
 import useToast from "../components/toasts/useToast.tsx";
 import {use} from "react";
@@ -27,7 +27,7 @@ export default function LoginPage() {
             await loginApi.login(values)
                 .then((response) => {
                     console.log(response);
-                    setUser(new LoggedUser(values.username, response.data.accessToken, response.data.role));
+                    setUser(new LoggedUser(values.username, response.data.accessToken, response.data.refreshToken, response.data.role));
 
                     addToast(
                         'Login successful!',
@@ -75,7 +75,6 @@ export default function LoginPage() {
                         <Form.Control
                             type="text"
                             name="username"
-                            placeholder="e.g. Gigachad"
                             value={values.username}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -91,7 +90,6 @@ export default function LoginPage() {
                         <Form.Control
                             type="password"
                             name="password"
-                            placeholder="e.g. ********"
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -105,6 +103,19 @@ export default function LoginPage() {
                     <Button variant="primary" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? 'Logging in...' : 'Login'}
                     </Button>
+
+                    <Container className={'mt-3'}>
+                        <Form.Text>
+                            Don't have any account yet?
+                        </Form.Text>
+                    </Container>
+                    <Container>
+                        <Form.Text>
+                            Go to the
+                            <Link to={'/register'}> registration page</Link>.
+                        </Form.Text>
+                    </Container>
+
                 </Form>
             )}
         </Formik>

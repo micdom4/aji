@@ -1,10 +1,10 @@
 import {CrudApi} from "./BasicCrudRestApi.ts";
 import axios, {type AxiosResponse} from "axios";
-import type {CreateProductType, ProductType} from "../model/ProductTypes.ts";
+import type {CreateProductType, EditProductType, ProductType} from "../model/ProductTypes.ts";
 
 const products_api = "/products"
 
-const productsCrud = new CrudApi<ProductType, CreateProductType, CreateProductType>(products_api)
+const productsCrud = new CrudApi<ProductType, CreateProductType, EditProductType>(products_api)
 
 const errorMessages = {
     notFound: "Product not found",
@@ -46,7 +46,7 @@ export const productApi = {
             })
     },
 
-    edit: async (id: string, data: CreateProductType): Promise<AxiosResponse<ProductType>> => {
+    edit: async (id: string, data: EditProductType): Promise<AxiosResponse<ProductType>> => {
         return await productsCrud.update(id, data)
             .catch((error) => {
                 if (axios.isAxiosError(error) && error.response) {

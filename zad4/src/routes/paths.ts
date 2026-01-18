@@ -15,6 +15,8 @@ export const Paths = {
 
         listOrders: '/orders',
         createOrder: '/orders/create',
+
+        cart: '/cart',
     },
 
     client: {
@@ -22,5 +24,7 @@ export const Paths = {
 
         listOrders: '/orders',
         createOrder: '/orders/create',
+
+        cart: '/cart',
     }
 }

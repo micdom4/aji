@@ -4,21 +4,29 @@ import {BrowserRouter} from "react-router-dom";
 import {ToastProvider} from "./components/toasts/ToastProvider.tsx";
 import {ModalProvider} from "./components/modals/ModalProvider.tsx";
 import LoggedUserContextProvider from "./contexts/LoggedUserContext/LoggedUserContextProvider.tsx";
+import {CartProvider} from "./contexts/CartContexts.tsx";
 
 
 function App() {
 
     return (
         <>
-            <ToastProvider>
-                <ModalProvider>
-                    <LoggedUserContextProvider>
-                        <BrowserRouter>
-                            <RoutesComponent/>
-                        </BrowserRouter>
-                    </LoggedUserContextProvider>
-                </ModalProvider>
-            </ToastProvider>
+            <LoggedUserContextProvider>
+                <ToastProvider>
+                    <CartProvider>
+
+                        <ModalProvider>
+
+
+                            <BrowserRouter>
+                                <RoutesComponent/>
+                            </BrowserRouter>
+
+                        </ModalProvider>
+
+                    </CartProvider>
+                </ToastProvider>
+            </LoggedUserContextProvider>
         </>
     )
 }

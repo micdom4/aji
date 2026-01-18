@@ -4,7 +4,7 @@ import {userApi} from "../../api/UserRestApi.ts";
 import {type Column, GenericTable} from "../../components/GenericTable.tsx";
 import {Badge, Button, ButtonGroup, CloseButton, Col, Dropdown, Form, InputGroup, Row} from "react-bootstrap";
 import useToast from "../../components/toasts/useToast.tsx";
-import {EditUserModal} from "../../components/modals/EditUserModal.tsx";
+import {EditProductModal} from "../../components/modals/EditProductModal.tsx";
 import {useNavigate} from "react-router-dom";
 import {Paths} from "../../routes/paths.ts";
 
@@ -115,7 +115,7 @@ export default function ListUsers() {
             </Row>
             {isPending ? <p>Fetching data...</p> : <GenericTable data={users} columns={columns}></GenericTable>}
 
-            <EditUserModal
+            <EditProductModal
                 show={showEditModal}
                 handleClose={() => setShowEditModal(false)}
                 user={editingUser}

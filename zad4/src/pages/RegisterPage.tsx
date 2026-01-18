@@ -1,7 +1,7 @@
-import {registerDataSchema, type RegisterDataType} from "../model/LoginDataType.ts";
+import {registerDataSchema, type RegisterDataType, type RegisterFormType} from "../model/LoginDataType.ts";
 import {Formik, type FormikHelpers} from "formik";
-import {Button, Form} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import {Button, Container, Form} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import {loginApi} from "../api/LoginApi.ts";
 import useToast from "../components/toasts/useToast.tsx";
 import useModal from "../components/modals/useModal.tsx";
@@ -14,8 +14,8 @@ export default function RegisterPage() {
     const navigate = useNavigate();
 
     const handleRegistration = async (
-        values: RegisterDataType,
-        {setSubmitting, setStatus}: FormikHelpers<RegisterDataType>
+        values: RegisterFormType,
+        {setSubmitting, setStatus}: FormikHelpers<RegisterFormType>
     ) => {
         showConfirmation({
             title: 'Confirmation of registration',
@@ -28,9 +28,14 @@ export default function RegisterPage() {
                 try {
                     setStatus(null);
 
-                    console.log('Wysyłanie danych do API:', values);
+                    const payload: RegisterDataType = {
+                        username: values.username,
+                        password: values.password,
+                    }
 
-                    await loginApi.register(values)
+                    console.log('Wysyłanie danych do API:', payload);
+
+                    await loginApi.register(payload)
                         .then((response) => {
                             console.log(response);
 
@@ -50,7 +55,7 @@ export default function RegisterPage() {
                         })
 
                 } catch (error) {
-                    console.error('Błąd logowania', error);
+                    console.error('Błąd rejestracji', error);
                     setStatus('Nieprawidłowy login lub hasło.');
                 } finally {
                     setSubmitting(false);
@@ -75,14 +80,13 @@ export default function RegisterPage() {
                   isSubmitting,
               }) => (
                 <Form noValidate onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
-                    <h3 className="mb-3">Login</h3>
+                    <h3 className="mb-3">Registration Form</h3>
 
                     <Form.Group className="mb-3" controlId="formLogin">
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                             type="text"
                             name="username"
-                            placeholder="e.g. Gigachad"
                             value={values.username}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -98,7 +102,6 @@ export default function RegisterPage() {
                         <Form.Control
                             type="password"
                             name="password"
-                            placeholder="e.g. ********"
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -114,7 +117,6 @@ export default function RegisterPage() {
                         <Form.Control
                             type="password"
                             name="confirmPassword"
-                            placeholder="e.g. ********"
                             value={values.confirmPassword}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -126,8 +128,20 @@ export default function RegisterPage() {
                     </Form.Group>
 
                     <Button variant="primary" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? 'Logging in...' : 'Login'}
+                        {isSubmitting ? 'Registration in progress...' : 'Register'}
                     </Button>
+
+                    <Container className={'mt-3'}>
+                        <Form.Text>
+                            Already have an account?
+                        </Form.Text>
+                    </Container>
+                    <Container>
+                        <Form.Text>
+                            Go to the
+                            <Link to={'/login'}> login page</Link>.
+                        </Form.Text>
+                    </Container>
                 </Form>
             )}
         </Formik>

@@ -7,17 +7,19 @@ export enum RoleEnum {
 
 export class LoggedUser {
     username: string | null;
-    token: string | null;
+    accessToken: string | null;
+    refreshToken: string | null;
     role: RoleEnum | null;
 
-    constructor(username: string | null, token: string | null, role: RoleEnum | null) {
+    constructor(username: string | null, accessToken: string | null, refreshToken: string | null, role: RoleEnum | null) {
         this.username = username;
-        this.token = token;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.role = role;
     }
 
     isAuthenticated() {
-        return (!!this.username && !!this.token);
+        return (!!this.username && !!this.accessToken);
     }
 
     isWorker() {
@@ -30,7 +32,7 @@ export class LoggedUser {
 
 }
 
-export const emptyUser = new LoggedUser(null, null, null)
+export const emptyUser = new LoggedUser(null, null, null, null)
 
 export type LoggedUserContextType = {
     user: LoggedUser;

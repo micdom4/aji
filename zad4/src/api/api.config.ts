@@ -1,5 +1,10 @@
 import axios, {AxiosError, type InternalAxiosRequestConfig} from 'axios'
-import {tokenStorageName} from "../contexts/LoggedUserContext/tokenStorageConfig.ts";
+import {
+    refreshTokenStorageName,
+    tokenStorageName,
+    userUsernameStorageName
+} from "../contexts/LoggedUserContext/tokenStorageConfig.ts";
+import {loginApi} from "./LoginApi.ts";
 
 export const API_URL = "/api"
 export const TIMEOUT_IN_MS = 10000
@@ -15,10 +20,10 @@ export const apiInstance = axios.create({
 })
 
 const authorizationRequestInterceptor = (config: InternalAxiosRequestConfig) => {
-    const token = sessionStorage.getItem(tokenStorageName)
+    const accessToken = sessionStorage.getItem(tokenStorageName)
 
-    if (token && config.headers) {
-        config.headers.Authorization = "Bearer " + token
+    if (accessToken && config.headers) {
+        config.headers.Authorization = "Bearer " + accessToken
     }
 
     return config
@@ -39,16 +44,43 @@ apiInstance.interceptors.response.use(
     (response) => {
         return response;
     },
-    (error: AxiosError) => {
+    async (error: AxiosError) => {
+        const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            const refreshToken = sessionStorage.getItem(refreshTokenStorageName);
+            const userId = sessionStorage.getItem(userUsernameStorageName) || "unknown";
+
+            if (refreshToken) {
+                try {
+                    const res = await loginApi.refresh(userId, { refreshToken: refreshToken });
+
+                    if (res.data.accessToken) {
+                        console.log("Token refreshed successfully");
+
+                        sessionStorage.setItem(tokenStorageName, res.data.accessToken);
+
+                        originalRequest.headers.Authorization = "Bearer " + res.data.accessToken;
+
+                        return apiInstance(originalRequest);
+                    }
+                } catch (refreshError) {
+                    console.error("Refresh token failed", refreshError);
+                    sessionStorage.clear();
+                    window.location.href = '/login';
+                    return Promise.reject(refreshError);
+                }
+            }
+        }
+
         if (!error.response) {
             console.error(error);
-            throw new Error(errorMessages.unknownError)
         } else {
             const status = error.response.status;
-
             if (status === 500) {
-                console.error(error);
-                throw new Error(errorMessages.serverError)
+                console.error("Server Error 500");
             }
         }
 

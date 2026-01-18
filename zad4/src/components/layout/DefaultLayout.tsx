@@ -34,6 +34,9 @@ export default function DefaultLayout({children}: LayoutProps) {
                             <Nav.Link onClick={() => navigate(Paths.client.createOrder)}>
                                 Create Order
                             </Nav.Link>
+                            <Nav.Link onClick={() => navigate(Paths.client.cart)}>
+                                Cart
+                            </Nav.Link>
                             <Nav.Link onClick={logOut}>
                                 Log Out
                             </Nav.Link>
