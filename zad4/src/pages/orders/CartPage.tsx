@@ -1,17 +1,17 @@
 import {use, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap';
-import {useCart} from '../contexts/useCart';
-import LoggedUserContext from "../contexts/LoggedUserContext";
+import {useCart} from '../../contexts/useCart.tsx';
+import LoggedUserContext from "../../contexts/LoggedUserContext";
 import {useNavigate} from 'react-router-dom';
 import {Formik} from 'formik';
-import {OrderSchema, type OrderStateType} from "../model/OrderTypes.ts";
-import {orderApi} from "../api/OrderRestApi.ts";
-import type {ProductType} from "../model/ProductTypes.ts";
-import useToast from "../components/toasts/useToast.tsx";
+import {OrderSchema, type OrderStateType} from "../../model/OrderTypes.ts";
+import {orderApi} from "../../api/OrderRestApi.ts";
+import type {ProductType} from "../../model/ProductTypes.ts";
+import useToast from "../../components/toasts/useToast.tsx";
 
 export default function CartPage() {
-    const { items, removeFromCart, changeQuantity, cartTotal, clearCart } = useCart();
-    const { user } = use(LoggedUserContext);
+    const {items, removeFromCart, changeQuantity, cartTotal, clearCart} = useCart();
+    const {user} = use(LoggedUserContext);
     const navigate = useNavigate();
     const {addToast} = useToast();
 
@@ -52,7 +52,7 @@ export default function CartPage() {
                     username: user.username ? user.username : '',
                 }}
                 validationSchema={OrderSchema}
-                onSubmit={async (values, { setSubmitting }) => {
+                onSubmit={async (values, {setSubmitting}) => {
                     try {
                         const productListWithDuplicates = getFlatProductList();
 
@@ -111,7 +111,7 @@ export default function CartPage() {
                                         <tr>
                                             <th>Product</th>
                                             <th>Price</th>
-                                            <th style={{ width: '140px' }}>Quantity</th>
+                                            <th style={{width: '140px'}}>Quantity</th>
                                             <th>Total</th>
                                             <th></th>
                                         </tr>
@@ -209,7 +209,7 @@ export default function CartPage() {
                                             </Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <hr />
+                                        <hr/>
 
                                         <div className="d-flex justify-content-between mb-2">
                                             <span>Products ({items.reduce((a, b) => a + b.quantity, 0)})</span>

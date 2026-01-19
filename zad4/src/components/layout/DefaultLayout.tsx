@@ -28,14 +28,22 @@ export default function DefaultLayout({children}: LayoutProps) {
                             <Nav.Link onClick={() => navigate(Paths.client.listProducts)}>
                                 Products
                             </Nav.Link>
+                            {user.isWorker() && <>
+                                <Nav.Link onClick={() => navigate(Paths.worker.createProduct)}>
+                                    Create Product
+                                </Nav.Link>
+                                <Nav.Link onClick={() => navigate(Paths.worker.initProducts)}>
+                                    Initialize Products
+                                </Nav.Link>
+                            </>}
                             <Nav.Link onClick={() => navigate(Paths.client.listOrders)}>
                                 Orders
                             </Nav.Link>
-                            <Nav.Link onClick={() => navigate(Paths.client.createOrder)}>
-                                Create Order
-                            </Nav.Link>
                             <Nav.Link onClick={() => navigate(Paths.client.cart)}>
                                 Cart
+                            </Nav.Link>
+                            <Nav.Link className={'text-info'} disabled>
+                                Logged as: '{user.username}' with role: {user.role}
                             </Nav.Link>
                             <Nav.Link onClick={logOut}>
                                 Log Out

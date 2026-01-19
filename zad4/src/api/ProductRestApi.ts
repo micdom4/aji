@@ -1,6 +1,7 @@
 import {CrudApi} from "./BasicCrudRestApi.ts";
 import axios, {type AxiosResponse} from "axios";
-import type {CreateProductType, EditProductType, ProductType} from "../model/ProductTypes.ts";
+import type {CreateProductType, EditProductType, ProductType, SeoDescriptionType} from "../model/ProductTypes.ts";
+import {apiInstance} from "./api.config.ts";
 
 const products_api = "/products"
 
@@ -19,6 +20,22 @@ export const productApi = {
 
     getById: async (id: string): Promise<AxiosResponse<ProductType>> => {
         return await productsCrud.getById(id)
+            .catch((error) => {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status === 404) {
+                        throw new Error(errorMessages.notFound)
+                    }
+                    if (error.response.status === 422) {
+                        throw new Error(errorMessages.invalidId)
+                    }
+                }
+
+                throw error;
+            })
+    },
+
+    seoDescription: async (id: string): Promise<AxiosResponse<SeoDescriptionType>> => {
+        return await apiInstance.get(`products/${id}/seo-description`)
             .catch((error) => {
                 if (axios.isAxiosError(error) && error.response) {
                     if (error.response.status === 404) {

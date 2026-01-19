@@ -29,18 +29,23 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, [items]);
 
     const addToCart = (product: ProductType) => {
-        setItems((prevItems) => {
-            const existingItem = prevItems.find((item) => item.product._id === product._id);
+        const existingItem = items.find((item) => item.product._id === product._id);
 
-            if (existingItem) {
-                addToast('Updated', `Increased quantity for ${product.name}`, 'info');
+        if (existingItem) {
+            addToast('Updated', `Increased quantity for ${product.name}`, 'info');
+        } else {
+            addToast('Added', `${product.name} added to cart`, 'success');
+        }
+
+        setItems((prevItems) => {
+            const exists = prevItems.find((item) => item.product._id === product._id);
+            if (exists) {
                 return prevItems.map((item) =>
                     item.product._id === product._id
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 );
             } else {
-                addToast('Added', `${product.name} added to cart`, 'success');
                 return [...prevItems, { product, quantity: 1 }];
             }
         });

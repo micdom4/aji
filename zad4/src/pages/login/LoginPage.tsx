@@ -1,12 +1,12 @@
-import {loginDataSchema, type LoginDataType} from "../model/LoginDataType.ts";
+import {loginDataSchema, type LoginDataType} from "../../model/LoginDataType.ts";
 import {Formik, type FormikHelpers} from "formik";
 import {Button, Container, Form} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
-import {loginApi} from "../api/LoginApi.ts";
-import useToast from "../components/toasts/useToast.tsx";
+import {loginApi} from "../../api/LoginApi.ts";
+import useToast from "../../components/toasts/useToast.tsx";
 import {use} from "react";
-import LoggedUserContext from "../contexts/LoggedUserContext";
-import {LoggedUser} from "../contexts/LoggedUserContext/types.ts";
+import LoggedUserContext from "../../contexts/LoggedUserContext";
+import {LoggedUser} from "../../contexts/LoggedUserContext/types.ts";
 
 export default function LoginPage() {
     const {addToast} = useToast();

@@ -33,6 +33,7 @@ export interface EditOrderType {
     phoneNumber: string,
     state: OrderStateType,
     username: string,
+    productList: ProductType[],
 }
 
 export interface CreateOrderType {

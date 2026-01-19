@@ -8,5 +8,6 @@ export default function HomePage() {
         <h1>Welcome in Vivo
             {user.isAuthenticated() ? ', ' + user.username : ''}!
         </h1>
+        <h5 className={'fst-italic text-capitalize'}>Vivo. Faster than allegro</h5>
     </>
 }

@@ -11,6 +11,7 @@ import {useCart} from "../../contexts/useCart.tsx";
 import {useNavigate} from "react-router-dom";
 import useModal from "../../components/modals/useModal.tsx";
 import useToast from "../../components/toasts/useToast.tsx";
+import {Paths} from "../../routes/paths.ts";
 
 export default function ListProducts() {
     const [products, setProducts] = useState<ProductType[]>([])
@@ -153,7 +154,7 @@ export default function ListProducts() {
             {isPending ? <p>Fetching data...</p> : <GenericTable data={filteredProducts} columns={columns}/>}
 
             {user.isWorker() ?
-                <Button onClick={() => navigate('products/create')}>Create new product</Button> :
+                <Button onClick={() => navigate(Paths.worker.createProduct)}>Create new product</Button> :
                 null}
 
             <EditProductModal

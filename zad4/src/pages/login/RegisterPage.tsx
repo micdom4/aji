@@ -1,10 +1,10 @@
-import {registerDataSchema, type RegisterDataType, type RegisterFormType} from "../model/LoginDataType.ts";
+import {registerDataSchema, type RegisterDataType, type RegisterFormType} from "../../model/LoginDataType.ts";
 import {Formik, type FormikHelpers} from "formik";
 import {Button, Container, Form} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
-import {loginApi} from "../api/LoginApi.ts";
-import useToast from "../components/toasts/useToast.tsx";
-import useModal from "../components/modals/useModal.tsx";
+import {loginApi} from "../../api/LoginApi.ts";
+import useToast from "../../components/toasts/useToast.tsx";
+import useModal from "../../components/modals/useModal.tsx";
 
 export default function RegisterPage() {
     const {addToast} = useToast();

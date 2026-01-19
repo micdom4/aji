@@ -11,10 +11,9 @@ export const Paths = {
     worker: {
         listProducts: '/products',
         createProduct: '/products/create',
-        editProduct: '/products/edit',
+        initProducts: '/products/init',
 
         listOrders: '/orders',
-        createOrder: '/orders/create',
 
         cart: '/cart',
     },
@@ -23,7 +22,6 @@ export const Paths = {
         listProducts: '/products',
 
         listOrders: '/orders',
-        createOrder: '/orders/create',
 
         cart: '/cart',
     }

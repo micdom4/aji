@@ -33,3 +33,7 @@ export interface EditProductType {
     unitWeight: number;
     category: CategoryType | undefined;
 }
+
+export interface SeoDescriptionType {
+    description: string;
+}

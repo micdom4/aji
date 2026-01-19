@@ -1,14 +1,13 @@
 import {Paths} from "./paths.ts";
 import * as React from "react";
 import HomePage from "../pages/HomePage.tsx";
-import LoginPage from "../pages/LoginPage.tsx";
-import RegisterPage from "../pages/RegisterPage.tsx";
-import CreateProduct from "../pages/resources/CreateProduct.tsx";
-import CreateAllocation from "../pages/allocations/CreateAllocation.tsx";
-import EditResource from "../pages/resources/EditResource.tsx";
-import ListProducts from "../pages/resources/ListProducts.tsx";
-import ListOrders from "../pages/allocations/ListOrders.tsx";
-import CartPage from "../pages/CartPage.tsx";
+import LoginPage from "../pages/login/LoginPage.tsx";
+import RegisterPage from "../pages/login/RegisterPage.tsx";
+import CreateProduct from "../pages/products/CreateProduct.tsx";
+import ListProducts from "../pages/products/ListProducts.tsx";
+import ListOrders from "../pages/orders/ListOrders.tsx";
+import CartPage from "../pages/orders/CartPage.tsx";
+import InitPage from "../pages/products/InitPage.tsx";
 
 export type RouteType = {
     Component: () => React.ReactElement,
@@ -39,10 +38,6 @@ export const clientRoutes: RouteType[] = [
         Component: ListProducts
     },
     {
-        path: Paths.client.createOrder,
-        Component: CreateAllocation
-    },
-    {
         path: Paths.client.listOrders,
         Component: ListOrders
     },
@@ -62,19 +57,15 @@ export const workerRoutes: RouteType[] = [
         Component: CreateProduct
     },
     {
-        path: Paths.worker.editProduct,
-        Component: EditResource
-    },
-    {
-        path: Paths.worker.createOrder,
-        Component: CreateAllocation
-    },
-    {
         path: Paths.worker.listOrders,
         Component: ListOrders
     },
     {
-        path: Paths.client.cart,
+        path: Paths.worker.cart,
         Component: CartPage
+    },
+    {
+        path: Paths.worker.initProducts,
+        Component: InitPage
     }
 ]
