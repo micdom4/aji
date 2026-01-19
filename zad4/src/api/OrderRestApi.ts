@@ -1,6 +1,12 @@
 import {CrudApi} from "./BasicCrudRestApi.ts";
 import {type AxiosResponse} from "axios";
-import type {CreateOrderType, EditOrderType, OrderStateType, OrderType} from "../types/OrderTypes.ts";
+import type {
+    CreateOpinionType,
+    CreateOrderType,
+    EditOrderType,
+    OrderStateType,
+    OrderType
+} from "../types/OrderTypes.ts";
 import {apiInstance} from "./api.config.ts";
 
 const order_path = "/orders"
@@ -32,6 +38,13 @@ export const orderApi = {
 
     edit: async (id: string, data: EditOrderType) => {
         return await orderCrud.update(id, data)
+            .catch((error) => {
+                throw error;
+            })
+    },
+
+    addOpinion: async (id: string, opinion: CreateOpinionType) => {
+        return await apiInstance.post(`${order_path}/${id}/opinions`, opinion)
             .catch((error) => {
                 throw error;
             })

@@ -45,8 +45,8 @@ export default function LoginPage() {
                 })
 
         } catch (error) {
-            console.error('Błąd logowania', error);
-            setStatus('Nieprawidłowy login lub hasło.');
+            console.error('Error while logging in', error);
+            setStatus('Incorrect login or password.');
         } finally {
             setSubmitting(false);
         }

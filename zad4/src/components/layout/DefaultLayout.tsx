@@ -20,7 +20,7 @@ export default function DefaultLayout({children}: LayoutProps) {
     return (
         <div>
             <Navbar collapseOnSelect bg={"primary"} fixed={"top"} expand="lg" data-bs-theme={"dark"}>
-                <Container fluid>
+                <Container className="d-flex justify-content-between align-items-center" fluid>
                     <Navbar.Brand onClick={() => navigate(Paths.default.home)}>Vivo</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => navigate(Paths.default.home)}>Home</Nav.Link>
@@ -28,19 +28,18 @@ export default function DefaultLayout({children}: LayoutProps) {
                             <Nav.Link onClick={() => navigate(Paths.client.listProducts)}>
                                 Products
                             </Nav.Link>
-                            {user.isWorker() && <>
+                            {user.isWorker() ? <>
                                 <Nav.Link onClick={() => navigate(Paths.worker.createProduct)}>
                                     Create Product
                                 </Nav.Link>
                                 <Nav.Link onClick={() => navigate(Paths.worker.initProducts)}>
                                     Initialize Products
                                 </Nav.Link>
-                            </>}
+                            </> : <Nav.Link onClick={() => navigate(Paths.client.cart)}>
+                                Cart
+                            </Nav.Link>}
                             <Nav.Link onClick={() => navigate(Paths.client.listOrders)}>
                                 Orders
-                            </Nav.Link>
-                            <Nav.Link onClick={() => navigate(Paths.client.cart)}>
-                                Cart
                             </Nav.Link>
                             <Nav.Link className={'text-info'} disabled>
                                 Logged as: '{user.username}' with role: {user.role}

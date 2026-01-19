@@ -3,7 +3,7 @@ import {type Column, GenericTable} from "../../components/GenericTable.tsx";
 import type {ProductType} from "../../types/ProductTypes.ts";
 import {productApi} from "../../api/ProductRestApi.ts";
 import LoggedUserContext from "../../contexts/LoggedUserContext";
-import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
+import {Button, Col, Form, InputGroup, Row, Spinner} from "react-bootstrap";
 import {EditProductModal} from "../../components/modals/EditProductModal.tsx";
 import type {CategoryType} from "../../types/CategoryTypes.ts";
 import {categoryApi} from "../../api/CategoryRestApi.ts";
@@ -85,7 +85,8 @@ export default function ListProducts() {
             render: (p) => {
                 return (
                     <>
-                        <Button onClick={() => addToCart(p)} variant={'success'}>Add to the Cart</Button>
+                        {user.isClient() &&
+                            <Button onClick={() => addToCart(p)} variant={'success'}>Add to the Cart</Button>}
                         {user.isWorker() && <Button onClick={() => handleEdit(p)} variant={'primary'}>Edit</Button>}
                         {user.isWorker() && <Button onClick={() => handleDelete(p)} variant={'danger'}>Delete</Button>}
                     </>
@@ -105,8 +106,8 @@ export default function ListProducts() {
     }, [products, searchText, selectedCategory]);
 
     const loadProducts = () => {
-        startTransition(() => {
-            productApi.getAll().then((response) => {
+        startTransition(async () => {
+            await productApi.getAll().then((response) => {
                 setProducts(response.data);
             })
         })
@@ -126,7 +127,7 @@ export default function ListProducts() {
             <Row className="mb-3 g-2">
                 <Col md={8} lg={9}>
                     <InputGroup>
-                        <InputGroup.Text>🔍Search:</InputGroup.Text>
+                        <InputGroup.Text>Search:</InputGroup.Text>
                         <Form.Control
                             type="text"
                             placeholder="Type product name..."
@@ -151,7 +152,10 @@ export default function ListProducts() {
                 </Col>
             </Row>
 
-            {isPending ? <p>Fetching data...</p> : <GenericTable data={filteredProducts} columns={columns}/>}
+            {isPending ? <>
+                <p>Fetching products...</p>
+                <Spinner animation="border" variant="primary"/>
+            </> : <GenericTable data={filteredProducts} columns={columns}/>}
 
             {user.isWorker() ?
                 <Button onClick={() => navigate(Paths.worker.createProduct)}>Create new product</Button> :

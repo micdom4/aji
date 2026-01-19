@@ -61,10 +61,6 @@ export const workerRoutes: RouteType[] = [
         Component: ListOrders
     },
     {
-        path: Paths.worker.cart,
-        Component: CartPage
-    },
-    {
         path: Paths.worker.initProducts,
         Component: InitPage
     }

@@ -3,14 +3,20 @@ import {type Column, GenericTable} from "../../components/GenericTable.tsx";
 import useToast from "../../components/toasts/useToast.tsx";
 import {formatDate} from "../../utils";
 import LoggedUserContext from "../../contexts/LoggedUserContext";
-import {type OrderStateType, type OrderType} from "../../types/OrderTypes.ts";
+import {type OrderStateType, OrderStatus, type OrderType} from "../../types/OrderTypes.ts";
 import {orderApi} from "../../api/OrderRestApi.ts";
-import {Button, Col, Dropdown, Form, InputGroup, ListGroup, Row} from "react-bootstrap";
+import {Button, Col, Dropdown, Form, InputGroup, ListGroup, Row, Spinner} from "react-bootstrap";
+import {AddOpinionModal} from "../../components/modals/AddOpinionModal.tsx";
+import {ViewOpinionsModal} from "../../components/modals/ViewOpinionsModal.tsx";
 
 export default function ListOrders() {
     const [orders, setOrders] = useState<OrderType[]>([])
     const [states, setStates] = useState<OrderStateType[]>([])
     const [isPending, startTransition] = useTransition()
+
+    const [selectedOrder, setSelectedOrder] = useState<OrderType | null>(null);
+    const [showAddOpinionModal, setShowAddOpinionModal] = useState(false);
+    const [showViewOpinionModal, setShowViewOpinionModal] = useState(false);
 
     const {addToast} = useToast()
     const {user} = use(LoggedUserContext);
@@ -19,8 +25,8 @@ export default function ListOrders() {
     const [selectedStateFilter, setSelectedStateFilter] = useState("");
 
     const loadOrders = () => {
-        startTransition(() => {
-            orderApi.getAll().then((response) => {
+        startTransition(async () => {
+            await orderApi.getAll().then((response) => {
                 const sorted = response.data.sort((a, b) =>
                     new Date(b.date).getTime() - new Date(a.date).getTime()
                 );
@@ -28,6 +34,21 @@ export default function ListOrders() {
             })
         })
     }
+
+    const handleAddOpinion = (order: OrderType) => {
+        setSelectedOrder(order);
+        setShowAddOpinionModal(true);
+    };
+
+    const handleViewOpinion = (order: OrderType) => {
+        setSelectedOrder(order);
+        setShowViewOpinionModal(true);
+    };
+
+    const handleOpinionSuccess = () => {
+        loadOrders();
+        setShowViewOpinionModal(true);
+    };
 
     const handleStateChange = (order: OrderType, state: OrderStateType) => {
         const payload = {
@@ -104,11 +125,18 @@ export default function ListOrders() {
         {
             header: 'Actions',
             render: (o) => {
+                const hasOpinions = o.opinions && o.opinions.length > 0;
+                const canAddOpinion =
+                    !hasOpinions &&
+                    (o.state.name === OrderStatus.REALIZED || o.state.name === OrderStatus.CANCELED) &&
+                    user.isClient() &&
+                    user.username === o.username;
+
                 return (
-                    <>
-                        {user.isWorker() ? (
+                    <div className="d-flex flex-column gap-2">
+                        {user.isWorker() && (
                             <Dropdown>
-                                <Dropdown.Toggle variant={'info'} size="sm">
+                                <Dropdown.Toggle variant={'info'} size="sm" className="w-100">
                                     Change state
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -123,10 +151,28 @@ export default function ListOrders() {
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
-                        ) : (
-                            <span className={'text-muted small'}>Access denied</span>
                         )}
-                    </>
+
+                        {canAddOpinion && (
+                            <Button
+                                variant="outline-primary"
+                                size="sm"
+                                onClick={() => handleAddOpinion(o)}
+                            >
+                                Rate Order
+                            </Button>
+                        )}
+
+                        {hasOpinions && (
+                            <Button
+                                variant="outline-secondary"
+                                size="sm"
+                                onClick={() => handleViewOpinion(o)}
+                            >
+                                View Opinion
+                            </Button>
+                        )}
+                    </div>
                 );
             }
         }
@@ -161,7 +207,7 @@ export default function ListOrders() {
             <Row className="mb-3 g-2">
                 <Col md={8} lg={9}>
                     <InputGroup>
-                        <InputGroup.Text>🔍 Search:</InputGroup.Text>
+                        <InputGroup.Text>Search:</InputGroup.Text>
                         <Form.Control
                             type="text"
                             placeholder="Search by email, username or phone..."
@@ -192,7 +238,23 @@ export default function ListOrders() {
                 </Col>
             </Row>
 
-            {isPending ? <p>Fetching data...</p> : <GenericTable data={filteredOrders} columns={columns}/>}
+            {isPending ? <>
+                <p>Fetching orders...</p>
+                <Spinner animation="border" variant="warning"/>
+            </> : <GenericTable data={filteredOrders} columns={columns}/>}
+
+            <AddOpinionModal
+                show={showAddOpinionModal}
+                handleClose={() => setShowAddOpinionModal(false)}
+                order={selectedOrder}
+                onSuccess={handleOpinionSuccess}
+            />
+
+            <ViewOpinionsModal
+                show={showViewOpinionModal}
+                handleClose={() => setShowViewOpinionModal(false)}
+                order={selectedOrder}
+            />
         </div>
     );
 }

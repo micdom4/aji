@@ -26,6 +26,7 @@ export interface OrderType extends BaseType {
     state: OrderStateType,
     username: string,
     productList: ProductType[],
+    opinions: OpinionType[]
 }
 
 export interface EditOrderType {
@@ -44,3 +45,24 @@ export interface CreateOrderType {
     username: string,
     productList: ProductType[],
 }
+
+export interface OpinionType {
+    rating: number;
+    content: string;
+    createdAt: Date;
+}
+
+export interface CreateOpinionType {
+    rating: number;
+    content: string;
+}
+
+export const OpinionSchema = Yup.object().shape({
+    rating: Yup.number()
+        .min(1, 'Minimum rating is 1')
+        .max(5, 'Maximum rating is 5')
+        .required('Rating is required'),
+    content: Yup.string()
+        .required('Content is required')
+        .min(5, 'Opinion is too short'),
+});

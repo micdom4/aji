@@ -14,8 +14,6 @@ export const Paths = {
         initProducts: '/products/init',
 
         listOrders: '/orders',
-
-        cart: '/cart',
     },
 
     client: {
