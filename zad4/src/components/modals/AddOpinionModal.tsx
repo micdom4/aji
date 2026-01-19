@@ -28,7 +28,8 @@ export const AddOpinionModal: React.FC<AddOpinionModalProps> = ({show, handleClo
                 initialValues={{date: new Date(), rating: 5, content: ''}}
                 validationSchema={OpinionSchema}
                 onSubmit={(values, {setSubmitting}) => {
-                    orderApi.addOpinion(order._id, {rating: values.rating, content: values.content})
+                    console.log("Sending: ", values);
+                    orderApi.addOpinion(order._id, {rating: Number(values.rating), content: values.content})
                         .then(() => {
                             addToast('Success', 'Your opinion has been added.', 'success');
                             onSuccess();
