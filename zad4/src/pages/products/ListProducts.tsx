@@ -1,11 +1,11 @@
 import {use, useEffect, useMemo, useState, useTransition} from "react";
 import {type Column, GenericTable} from "../../components/GenericTable.tsx";
-import type {ProductType} from "../../model/ProductTypes.ts";
+import type {ProductType} from "../../types/ProductTypes.ts";
 import {productApi} from "../../api/ProductRestApi.ts";
 import LoggedUserContext from "../../contexts/LoggedUserContext";
 import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {EditProductModal} from "../../components/modals/EditProductModal.tsx";
-import type {CategoryType} from "../../model/CategoryTypes.ts";
+import type {CategoryType} from "../../types/CategoryTypes.ts";
 import {categoryApi} from "../../api/CategoryRestApi.ts";
 import {useCart} from "../../contexts/useCart.tsx";
 import {useNavigate} from "react-router-dom";

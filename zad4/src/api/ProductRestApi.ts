@@ -1,6 +1,6 @@
 import {CrudApi} from "./BasicCrudRestApi.ts";
 import axios, {type AxiosResponse} from "axios";
-import type {CreateProductType, EditProductType, ProductType, SeoDescriptionType} from "../model/ProductTypes.ts";
+import type {CreateProductType, EditProductType, ProductType, SeoDescriptionType} from "../types/ProductTypes.ts";
 import {apiInstance} from "./api.config.ts";
 
 const products_api = "/products"

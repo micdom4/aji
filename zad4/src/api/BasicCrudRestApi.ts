@@ -1,6 +1,6 @@
 import type {AxiosResponse} from "axios";
 import {apiInstance} from "./api.config.ts";
-import type {BaseType} from "../model/BaseType.ts";
+import type {BaseType} from "../types/BaseType.ts";
 
 export class CrudApi<T extends BaseType, C, E = T> {
     private readonly endpoint: string;

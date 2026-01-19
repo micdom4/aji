@@ -3,9 +3,9 @@ import {Button, Col, Form, Modal, Row} from 'react-bootstrap';
 import {Formik} from 'formik';
 import useToast from '../../components/toasts/useToast.tsx';
 import useModal from "./useModal.tsx";
-import type {ProductType} from "../../model/ProductTypes.ts";
+import type {ProductType} from "../../types/ProductTypes.ts";
 import {productApi} from "../../api/ProductRestApi.ts";
-import type {CategoryType} from "../../model/CategoryTypes.ts";
+import type {CategoryType} from "../../types/CategoryTypes.ts";
 import {categoryApi} from "../../api/CategoryRestApi.ts";
 
 interface EditProductModalProps {

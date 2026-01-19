@@ -1,6 +1,6 @@
 import {CrudApi} from "./BasicCrudRestApi.ts";
 import {type AxiosResponse} from "axios";
-import type {CreateOrderType, EditOrderType, OrderStateType, OrderType} from "../model/OrderTypes.ts";
+import type {CreateOrderType, EditOrderType, OrderStateType, OrderType} from "../types/OrderTypes.ts";
 import {apiInstance} from "./api.config.ts";
 
 const order_path = "/orders"

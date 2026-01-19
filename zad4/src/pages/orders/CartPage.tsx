@@ -4,9 +4,9 @@ import {useCart} from '../../contexts/useCart.tsx';
 import LoggedUserContext from "../../contexts/LoggedUserContext";
 import {useNavigate} from 'react-router-dom';
 import {Formik} from 'formik';
-import {OrderSchema, type OrderStateType} from "../../model/OrderTypes.ts";
+import {OrderSchema, type OrderStateType} from "../../types/OrderTypes.ts";
 import {orderApi} from "../../api/OrderRestApi.ts";
-import type {ProductType} from "../../model/ProductTypes.ts";
+import type {ProductType} from "../../types/ProductTypes.ts";
 import useToast from "../../components/toasts/useToast.tsx";
 
 export default function CartPage() {

@@ -3,10 +3,10 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import useToast from "../../components/toasts/useToast.tsx";
 import useModal from "../../components/modals/useModal.tsx";
 import {productApi} from "../../api/ProductRestApi.ts";
-import type {CategoryType} from "../../model/CategoryTypes.ts";
+import type {CategoryType} from "../../types/CategoryTypes.ts";
 import {useEffect, useState} from "react";
 import {categoryApi} from "../../api/CategoryRestApi.ts";
-import {ProductSchema} from "../../model/ProductTypes.ts";
+import {ProductSchema} from "../../types/ProductTypes.ts";
 
 export default function CreateProduct() {
     const {addToast} = useToast()

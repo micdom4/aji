@@ -1,5 +1,5 @@
 import React, {type ReactNode, useEffect, useMemo, useState} from 'react';
-import type {ProductType} from '../model/ProductTypes';
+import type {ProductType} from '../types/ProductTypes';
 import useToast from '../components/toasts/useToast';
 import { CartContext } from "./useCart";
 

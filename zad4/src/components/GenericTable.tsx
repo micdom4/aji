@@ -1,6 +1,6 @@
 import {type ReactNode} from 'react';
 import {Table} from 'react-bootstrap';
-import type {BaseType} from "../model/BaseType.ts";
+import type {BaseType} from "../types/BaseType.ts";
 
 export interface Column<T> {
     header: string;

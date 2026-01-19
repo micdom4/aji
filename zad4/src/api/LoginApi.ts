@@ -1,6 +1,6 @@
 import {loginApiInstance} from './api.config'
 import type {AxiosResponse} from "axios";
-import type {LoginDataType, RegisterDataType} from "../model/LoginDataType.ts";
+import type {LoginDataType, RegisterDataType} from "../types/LoginDataType.ts";
 import type {LoginResponse} from "../contexts/LoggedUserContext/types.ts";
 
 export const loginApi = {

@@ -3,7 +3,7 @@ import {type Column, GenericTable} from "../../components/GenericTable.tsx";
 import useToast from "../../components/toasts/useToast.tsx";
 import {formatDate} from "../../utils";
 import LoggedUserContext from "../../contexts/LoggedUserContext";
-import {type OrderStateType, type OrderType} from "../../model/OrderTypes.ts";
+import {type OrderStateType, type OrderType} from "../../types/OrderTypes.ts";
 import {orderApi} from "../../api/OrderRestApi.ts";
 import {Button, Col, Dropdown, Form, InputGroup, ListGroup, Row} from "react-bootstrap";
 

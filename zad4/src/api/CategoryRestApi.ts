@@ -1,6 +1,6 @@
 import type {AxiosResponse} from "axios";
 import {CrudApi} from "./BasicCrudRestApi.ts";
-import type {CategoryType, CreateCategoryType} from "../model/CategoryTypes.ts";
+import type {CategoryType, CreateCategoryType} from "../types/CategoryTypes.ts";
 
 const category_path = '/categories';
 
