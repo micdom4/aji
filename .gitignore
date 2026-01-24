@@ -7,6 +7,8 @@
 example/
 examples/
 
+.idea
+
 # Parcel Files
 .parcel-cache/
 dist
